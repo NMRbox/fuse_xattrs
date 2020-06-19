@@ -34,7 +34,6 @@ endif()
 include (CheckCSourceCompiles)
 check_c_source_compiles ("
   #include <sys/types.h>
-  #include <attr/xattr.h>
   int main() { return 1; }
   " HAVE_ATTR_XATTR_H)
 if(NOT HAVE_ATTR_XATTR_H)

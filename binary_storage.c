@@ -17,7 +17,7 @@
 #include "utils.h"
 #include "fuse_xattrs_config.h"
 
-#include <attr/xattr.h>
+#include <sys/xattr.h>
 
 struct on_memory_attr {
     u_int16_t name_size;
@@ -321,7 +321,7 @@ int binary_storage_read_key(const char *path, const char *name, char *value, siz
     
     if (buffer == NULL) {
         if (buffer_size == -ENOENT) {
-            return -ENOATTR;
+            return -ENODATA;
         }
         return buffer_size;
     }
@@ -362,7 +362,7 @@ int binary_storage_read_key(const char *path, const char *name, char *value, siz
     }
     free(buffer);
 
-    return -ENOATTR;
+    return -ENODATA;
 }
 
 int binary_storage_list_keys(const char *path, char *list, size_t size)
@@ -465,7 +465,7 @@ int binary_storage_remove_key(const char *path, const char *name)
         debug_print("key removed successfully.\n");
     } else if (removed == 0) {
         error_print("key not found.\n");
-        res = -ENOATTR;
+        res = -ENODATA;
     } else {
         debug_print("removed %d keys (was duplicated)\n", removed);
         res = -EILSEQ;
